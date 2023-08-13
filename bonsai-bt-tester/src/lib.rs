@@ -1,10 +1,3 @@
-use bonsai_bt::{
-    Behavior::{Action, Sequence, Wait, WaitForever, WhenAny, While},
-    Event, Running, State, Success, Timer, UpdateArgs, BT, RUNNING,
-};
-use std::{collections::HashMap, thread::sleep, time::Duration};
-
-type Damage = u32;
 type Distance = Vec<f64>;
 
 #[derive(serde::Deserialize, serde::Serialize, Clone, Debug, PartialEq)]
@@ -21,8 +14,14 @@ enum EnemyNPC {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::{collections::HashMap, thread::sleep, time::Duration};
+    use bonsai_bt::{
+        Behavior::{Action, Sequence, Wait, WaitForever, While},
+        BT, Event, State, UpdateArgs,
+        Running, RUNNING, Success,
+    };
 
-     #[test]
+    #[test]
     fn wait_tick_test() {
         let game_tick = |dt: f64, state: &mut State<EnemyNPC>| -> usize {
             let mut attack_count = 0;
