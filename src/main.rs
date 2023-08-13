@@ -1,3 +1,5 @@
+use bonsai_bt_tester::*;
+
 fn main() {
-    println!("Hello, world!");
+    while_wait_time();
 }
