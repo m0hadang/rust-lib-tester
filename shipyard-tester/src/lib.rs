@@ -45,7 +45,7 @@ impl Life {
 }
 
 #[derive(Component)]
-#[track(Insertion)]
+#[track(Removal )]
 struct Dead;
 
 fn read_only_system_1(
