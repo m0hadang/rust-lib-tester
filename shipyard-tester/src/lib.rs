@@ -3,6 +3,7 @@ mod component_test;
 mod control_component_test;
 mod tracking_test;
 mod workload_test;
+mod hierarchy_test;
 
 use shipyard::*;
 
@@ -47,7 +48,6 @@ impl Life {
 #[derive(Component)]
 #[track(Removal )]
 struct Dead;
-
 fn read_only_system_1(
     view_vel: View<Vel>) {
     view_vel.iter().for_each(|vel|{
