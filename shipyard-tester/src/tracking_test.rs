@@ -52,8 +52,8 @@ fn removed_system(mut view_life: View<Life>, mut view_dead: View<Dead>) {
 fn remove_workload() -> Workload {
     (
         remove_system
-            .before_all(removed_system),
-        removed_system,
+            .before_all(removed_system),// !! this is not Add. it only set the order of execution
+        removed_system, // if this is not exists, then add_workload will return error
     ).into_workload()
 }
 
@@ -88,8 +88,8 @@ mod tests {
         world.add_entity((Life(0), Dead));
         world.add_workload(remove_workload);
         world.run_workload(remove_workload).unwrap();
-        world.run(|view_life: View<Life>| {
-            assert_eq!(view_life.iter().count(), 5);
+        world.run(|view_dead: View<Dead>| {
+            assert_eq!(view_dead.iter().count(), 2);
         });
     }
 }
