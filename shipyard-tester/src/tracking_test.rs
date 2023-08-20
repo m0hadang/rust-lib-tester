@@ -23,7 +23,7 @@ fn modified_workload() -> Workload {
     (
         modify_system
             .before_all(modified_system),
-        modified_system,
+        modified_system,  // 의존성 순서를 정의. 순서에 문제가 발생하면 패닉 발생. 컴파일 타임에 의존성 문제 확인 가능
     ).into_workload()
 }
 
@@ -52,8 +52,8 @@ fn removed_system(mut view_life: View<Life>, mut view_dead: View<Dead>) {
 fn remove_workload() -> Workload {
     (
         remove_system
-            .before_all(removed_system),// !! this is not Add. it only set the order of execution
-        removed_system, // if this is not exists, then add_workload will return error
+            .before_all(removed_system),// !! removed_system을 추가한 것이 아닌 의존성 설정한 것이다.
+        removed_system, // 이것이 추가다. 만약 시스템을 추가하지 않으면 패닉 발생.
     ).into_workload()
 }
 
