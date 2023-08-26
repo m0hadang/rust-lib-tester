@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 bonsai-bt-tester = { path = "bonsai-bt-tester", version = "0.1.0" }
 shipyard-tester = { path = "shipyard-tester", version = "0.1.0" }
+fasteval-tester = { path = "fasteval-tester", version = "0.1.0" }

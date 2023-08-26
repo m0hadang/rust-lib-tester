@@ -1,7 +1,6 @@
-use bonsai_bt_tester::*;
-use shipyard_tester::*;
+use std::io::Read;
+use fasteval_tester::compile;
 
 fn main() {
-    // outer_parallel_able_test();
-    outer_parallel_not_able_test();
+    compile().unwrap();
 }
