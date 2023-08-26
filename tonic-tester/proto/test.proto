@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package tutorial;
+package test_package;
 
 // 서비스 정의
-service Foo {
+service AddService {
   // 함수 정의
   rpc Add (AddRequest) returns (AddReply);
 }

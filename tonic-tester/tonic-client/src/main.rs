@@ -1,13 +1,13 @@
-pub mod tutorial {
-    tonic::include_proto!("tutorial");
+pub mod test_package {
+    tonic::include_proto!("test_package");
 }
 
-use tutorial::foo_client::FooClient;
-use tutorial::{AddReply, AddRequest};
+use test_package::add_service_client::AddServiceClient;
+use test_package::{AddReply, AddRequest};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut client = FooClient::connect("http://[::1]:50051").await?;
+    let mut client = AddServiceClient::connect("http://[::1]:50051").await?;
 
     let request = tonic::Request::new(AddRequest { lhs: 20, rhs: 20 });
 
