@@ -9,25 +9,6 @@ use tokio::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 mod basic;
 
-pub fn init_tokio_runtime() -> Result<(), Box<dyn std::error::Error>> {
-    let rt = Runtime::new()?;
-    // Spawn the root task
-    println!("root job");
-    rt.block_on(async {
-        println!("async job");
-        //do some async work here
-        Ok(())
-    })
-}
-
-#[tokio::main]
-async fn init_tokio_macro() -> Result<(), Box<dyn std::error::Error>> {
-    println!("async job");
-    Ok(())
-}
-
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -38,7 +19,9 @@ mod tests {
         let value_copy2: Arc<RwLock<i32>> = value.clone();
         tokio::spawn(async move {
             let read_lock: RwLockReadGuard<i32> = value_copy1.read().await;
-            assert_eq!(*read_lock, 1);
+            assert!(
+                (*read_lock == 1) || (*read_lock == 2)
+            );
         });
         tokio::spawn(async move {
             let mut write_lock: RwLockWriteGuard<i32> = value.write().await;
