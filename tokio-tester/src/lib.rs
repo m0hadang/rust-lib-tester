@@ -7,6 +7,8 @@ use std::time::Duration;
 use tokio::runtime::Runtime;
 use tokio::sync::{RwLock, RwLockReadGuard, RwLockWriteGuard};
 
+mod basic;
+
 pub fn init_tokio_runtime() -> Result<(), Box<dyn std::error::Error>> {
     let rt = Runtime::new()?;
     // Spawn the root task
@@ -24,23 +26,7 @@ async fn init_tokio_macro() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn tokio_spawn() {
-    let rt = Runtime::new().unwrap();
 
-    // Spawn a future onto the runtime
-    rt.spawn(async {
-        println!("now running on a worker thread");
-    });
-}
-
-fn tokio_spawn_blocking() {
-    let rt = Runtime::new().unwrap();
-
-    // Spawn a blocking function onto the runtime
-    rt.spawn_blocking(|| {
-        println!("now running on a worker thread");
-    });
-}
 
 #[cfg(test)]
 mod tests {
@@ -133,7 +119,7 @@ mod tests {
     #[test]
     fn test_tokio() {
         let Ok(rt) = Runtime::new() else {
-            return;
+            panic!("failed to create runtime");
         };
 
         // Execute the future, blocking the current thread until completion
