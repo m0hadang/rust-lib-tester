@@ -138,9 +138,10 @@ mod tests {
 
         // Execute the future, blocking the current thread until completion
         rt.block_on(async {
+            let handle = tokio_lock();
             // parallel
             tokio::join!(
-                tokio_lock(),
+                handle,
                 tokio_channel_1(),
                 tokio_channel_2(),
                 tokio_channel_3(),
