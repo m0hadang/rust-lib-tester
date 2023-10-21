@@ -6,6 +6,7 @@ mod workload_test;
 mod hierarchy_test;
 
 use shipyard::*;
+use std::collections::HashMap;
 
 #[derive(Component, Debug)]
 struct Pos(u32, u32);
@@ -42,6 +43,22 @@ struct Life(i32);
 impl Life {
     fn new(life: i32) -> Life {
         Life(life)
+    }
+}
+
+#[derive(Component)]
+#[track(Modification)]
+struct ComplexLife {
+    data: HashMap<String, i32>,
+}
+
+impl ComplexLife {
+    fn new(init: i32) -> ComplexLife {
+        let mut data: HashMap<String, i32> = Default::default();
+        data.insert("item".to_string(), init);
+        ComplexLife {
+            data
+        }
     }
 }
 

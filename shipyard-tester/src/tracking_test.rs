@@ -1,21 +1,37 @@
 use shipyard::*;
 use crate::*;
 
-fn modify_system(mut view_life: ViewMut<Life>) {
+fn modify_system(mut view_life: ViewMut<Life>, mut view_composit: ViewMut<ComplexLife>) {
     for (id, mut life) in (&mut view_life).iter().with_id() {
         if life.0 < 0 {
             life.0 = 0;
         }
     }
+
+    for (id, mut composit) in (&mut view_composit).iter().with_id() {
+        let data = composit.data.get("item").unwrap();
+        if *data < 0 {
+            *composit.data.get_mut("item").unwrap() = 0;
+        }
+    }
 }
 
-fn modified_system(mut view_life: ViewMut<Life>) {
-    let ids: Vec<_> =
+fn modified_system(mut view_life: ViewMut<Life>, mut view_composit: ViewMut<ComplexLife>) {
+    let ids1: Vec<_> =
         view_life.modified().iter().ids().collect();
-    assert_eq!(ids.iter().count(), 2);
-    for id in ids {
+    assert_eq!(ids1.iter().count(), 2);
+    for id in ids1 {
         let life = view_life.remove(id).unwrap();
         assert_eq!(life.0, 0);
+    }
+
+    let ids2: Vec<_> =
+        view_composit.modified().iter().ids().collect();
+    assert_eq!(ids2.iter().count(), 2);
+    for id in ids2 {
+        let life = view_composit.remove(id).unwrap();
+        let data = life.data.get("item").unwrap();
+        assert_eq!(*data, 0);
     }
 }
 
@@ -69,6 +85,13 @@ mod tests {
         world.add_entity(Life(-2));
         world.add_entity(Life(1));
         world.add_entity(Life(-1));
+
+        world.add_entity(ComplexLife::new(3));
+        world.add_entity(ComplexLife::new(2));
+        world.add_entity(ComplexLife::new(-2));
+        world.add_entity(ComplexLife::new(1));
+        world.add_entity(ComplexLife::new(-1));
+
         world.add_workload(modified_workload);
 
         world.run_workload(modified_workload).unwrap();
